@@ -1,0 +1,42 @@
+# This file contains metadata for your plugin
+
+[general]
+name=AI Assistant for GIS
+qgisMinimumVersion=3.0
+description=Autonomous GIS Engineer powered by Gemini AI for Kazakhstan territory
+version=1.0.0
+author=GIS AI Team
+email=your-email@example.com
+
+about=AI-powered autonomous assistant for QGIS that generates and executes PyQGIS code based on natural language commands. Optimized for working with Kazakhstan geographic data including Sentinel satellite imagery, OpenStreetMap, and local geo-portals. Features include intelligent code generation, context-aware analysis, screenshot analysis with Gemini Vision, and autonomous data fetching.
+
+tracker=https://github.com/yourusername/qgis-ai-assistant/issues
+repository=https://github.com/yourusername/qgis-ai-assistant
+# End of mandatory metadata
+
+# Recommended items:
+hasProcessingProvider=no
+changelog=
+    1.0.0 - Initial release
+    - Natural language to PyQGIS code generation
+    - Context-aware project analysis
+    - Screenshot analysis with Gemini Vision
+    - Support for Kazakhstan data sources
+    - Autonomous data fetching (Sentinel, OSM)
+
+# Tags are comma separated with spaces allowed
+tags=python,ai,gemini,automation,kazakhstan,processing,assistant,pyqgis
+
+homepage=https://github.com/yourusername/qgis-ai-assistant
+category=Analysis
+icon=icon.png
+experimental=False
+deprecated=False
+
+# Since QGIS 3.8, a comma separated list of plugins to be installed
+# (or upgraded) can be specified.
+# Check the documentation for more information.
+# plugin_dependencies=
+
+# If the plugin can run on QGIS Server.
+server=False

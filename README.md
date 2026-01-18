@@ -1,18 +1,22 @@
-# ArcGIS AI Assistant
+# QGIS AI Assistant - Автономный ГИС-Инженер для Казахстана
 
-AI-powered assistant for ArcGIS Pro using Gemini and Go backend.
+AI-powered autonomous GIS assistant for **QGIS** using Gemini Pro, optimized for Kazakhstan territory.
+
+**Целевая аудитория:** Специалисты ГИС в Казахстане (Павлодарская область и другие регионы)
+
+**Платформа:** QGIS 3.0+ (бесплатно и open-source)
 
 ## Архитектура
 
 ```
-ArcGIS Pro (Python) ←→ Go Backend (HTTP) ←→ Gemini AI
+QGIS (PyQGIS) ←→ Go Backend (HTTP) ←→ Gemini AI
 ```
 
 ### Компоненты
 
 1. **Go Backend** - HTTP сервер с Gemini интеграцией
-2. **Python Add-in** - инструмент внутри ArcGIS Pro
-3. **Gemini AI** - генерация ArcPy скриптов
+2. **QGIS Plugin** - плагин для QGIS (PyQGIS)
+3. **Gemini AI** - генерация PyQGIS скриптов
 
 ## Быстрый старт
 
@@ -36,31 +40,35 @@ go run cmd/server/main.go
 
 Сервер запустится на `http://localhost:8080`
 
-### 2. Установка Python Add-in
+### 2. Установка QGIS Plugin
 
-#### Создание .esriaddin файла:
+#### Создание .zip файла плагина:
 
-1. Откройте ArcGIS Pro
-2. Перейдите в каталог `arcgis-addon`
-3. Заархивируйте все файлы в ZIP
-4. Переименуйте расширение `.zip` в `.esriaddin`
-5. Дважды кликните на `.esriaddin` для установки
+1. Перейдите в каталог `qgis-plugin`
+2. Заархивируйте все файлы в ZIP
+3. Установите через QGIS Plugin Manager
 
-#### Или используйте командную строку:
+Подробные инструкции: `qgis-plugin/INSTALL_PLUGIN.md`
+
+#### Или командная строка:
 
 ```powershell
-cd arcgis-addon
-Compress-Archive -Path * -DestinationPath ../ArcGISAIAssistant.zip
-Rename-Item ../ArcGISAIAssistant.zip ../ArcGISAIAssistant.esriaddin
+cd qgis-plugin
+Compress-Archive -Path * -DestinationPath ../ai_assistant.zip
 ```
+
+Затем в QGIS: **Plugins → Manage and Install Plugins → Install from ZIP**
 
 ### 3. Использование
 
 1. Запустите Go сервер (должен работать на фоне)
-2. Откройте ArcGIS Pro
+2. Откройте ArcGIS Pro с проектом территории Казахстана
 3. Найдите панель инструментов "AI Assistant"
 4. Нажмите кнопку AI Assistant
-5. Введите команду, например: "Покажи сообщение Привет"
+5. Введите команду, например:
+   - "Посчитай школы в Павлодаре"
+   - "Создай буфер 500м вокруг Иртыша"
+   - "Загрузи спутниковый снимок Павлодарской области"
 6. AI сгенерирует и выполнит код
 
 ## API Endpoints

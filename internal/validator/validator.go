@@ -14,11 +14,11 @@ type ValidationResult struct {
 	Score    int      `json:"score"` // 0-100, higher is safer
 }
 
-// Validator validates ArcPy code for security and correctness
+// Validator validates PyQGIS code for security and correctness
 type Validator struct {
 	dangerousPatterns []*regexp.Regexp
 	allowedModules    map[string]bool
-	allowedArcPy      map[string]bool
+	allowedQGIS       map[string]bool
 }
 
 // NewValidator creates a new code validator
@@ -26,7 +26,7 @@ func NewValidator() *Validator {
 	return &Validator{
 		dangerousPatterns: compileDangerousPatterns(),
 		allowedModules:    getAllowedModules(),
-		allowedArcPy:      getAllowedArcPyFunctions(),
+		allowedQGIS:       getAllowedQGISFunctions(),
 	}
 }
 
@@ -145,44 +145,61 @@ func compileDangerousPatterns() []*regexp.Regexp {
 // getAllowedModules returns map of allowed Python modules
 func getAllowedModules() map[string]bool {
 	return map[string]bool{
-		"arcpy":       true,
-		"os.path":     true, // Read-only path operations
-		"math":        true,
-		"datetime":    true,
-		"json":        true,
-		"re":          true,
-		"collections": true,
+		"qgis.core":       true,
+		"qgis.processing": true,
+		"qgis.gui":        true,
+		"qgis.utils":      true,
+		"qgis.PyQt5":      true,
+		"qgis":            true,
+		"processing":      true,
+		"PyQt5":           true,
+		"os.path":         true, // Read-only path operations
+		"math":            true,
+		"datetime":        true,
+		"json":            true,
+		"re":              true,
+		"collections":     true,
 	}
 }
 
-// getAllowedArcPyFunctions returns commonly used safe arcpy functions
-func getAllowedArcPyFunctions() map[string]bool {
+// getAllowedQGISFunctions returns commonly used safe QGIS/PyQGIS functions
+func getAllowedQGISFunctions() map[string]bool {
 	return map[string]bool{
 		// Messaging
-		"arcpy.AddMessage": true,
-		"arcpy.AddWarning": true,
-		"arcpy.AddError":   true,
+		"QgsMessageLog.logMessage": true,
+		"QgsMessageLog.Info":       true,
+		"QgsMessageLog.Warning":    true,
+		"QgsMessageLog.Critical":   true,
 
-		// Analysis
-		"arcpy.analysis.Buffer":      true,
-		"arcpy.analysis.Clip":        true,
-		"arcpy.analysis.Intersect":   true,
-		"arcpy.analysis.Union":       true,
-		"arcpy.analysis.SpatialJoin": true,
+		// Processing framework
+		"processing.run":                   true,
+		"processing.algorithmHelp":         true,
+		"processing.createAlgorithmDialog": true,
 
-		// Management
-		"arcpy.management.GetCount":               true,
-		"arcpy.management.SelectLayerByLocation":  true,
-		"arcpy.management.SelectLayerByAttribute": true,
-		"arcpy.management.CopyFeatures":           true,
+		// Project
+		"QgsProject.instance":       true,
+		"QgsProject.mapLayers":      true,
+		"QgsProject.addMapLayer":    true,
+		"QgsProject.removeMapLayer": true,
 
-		// Describe
-		"arcpy.Describe":           true,
-		"arcpy.ListFields":         true,
-		"arcpy.ListFeatureClasses": true,
+		// Layers
+		"QgsVectorLayer":               true,
+		"QgsRasterLayer":               true,
+		"QgsVectorFileWriter":          true,
+		"QgsCoordinateReferenceSystem": true,
 
-		// Project management
-		"arcpy.mp.ArcGISProject": true,
+		// Geometry
+		"QgsGeometry": true,
+		"QgsPoint":    true,
+		"QgsPointXY":  true,
+		"QgsFeature":  true,
+		"QgsField":    true,
+		"QgsFields":   true,
+
+		// Utils
+		"iface.mapCanvas":      true,
+		"iface.activeLayer":    true,
+		"iface.addVectorLayer": true,
 	}
 }
 
@@ -219,8 +236,13 @@ func (v *Validator) isModuleAllowed(module string) bool {
 		return true
 	}
 
-	// Check if it's a submodule of arcpy
-	if strings.HasPrefix(module, "arcpy") {
+	// Check if it's a submodule of qgis
+	if strings.HasPrefix(module, "qgis") {
+		return true
+	}
+
+	// Check if it's a submodule of PyQt5 (used by QGIS)
+	if strings.HasPrefix(module, "PyQt5") {
 		return true
 	}
 
