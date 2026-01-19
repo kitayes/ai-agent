@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"arcgis-ai-assistant/internal/handlers"
-	"arcgis-ai-assistant/internal/llm"
+	"qgis-ai-assistant/internal/handlers"
+	"qgis-ai-assistant/internal/llm"
 )
 
 type Server struct {
@@ -30,6 +30,13 @@ func New(port string, llmClient *llm.Client) *Server {
 
 	analyzeHandler := handlers.NewAnalyzeHandler(llmClient)
 	mux.HandleFunc("/api/analyze-screenshot", corsMiddleware(analyzeHandler.Handle))
+
+	// Data fetching endpoints
+	dataSearchHandler := handlers.NewDataSearchHandler(llmClient)
+	mux.HandleFunc("/api/data/search", corsMiddleware(dataSearchHandler.Handle))
+
+	dataFetchHandler := handlers.NewDataFetchHandler("./downloads")
+	mux.HandleFunc("/api/data/fetch", corsMiddleware(dataFetchHandler.Handle))
 
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

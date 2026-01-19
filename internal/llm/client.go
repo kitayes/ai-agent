@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"arcgis-ai-assistant/internal/models"
+	"qgis-ai-assistant/internal/models"
 
 	"github.com/google/generative-ai-go/genai"
 	"google.golang.org/api/option"
@@ -22,7 +22,7 @@ func NewClient(ctx context.Context, apiKey string) (*Client, error) {
 		return nil, fmt.Errorf("failed to create genai client: %w", err)
 	}
 
-	model := client.GenerativeModel("gemini-1.5-pro")
+	model := client.GenerativeModel("gemini-2.0-flash")
 	model.SetTemperature(0.2)
 	model.SetTopP(0.8)
 	model.SetTopK(40)
@@ -155,4 +155,18 @@ func (c *Client) AnalyzeMapScreenshot(imageBytes []byte, userPrompt string, proj
 	}
 
 	return analysis, suggestedActions, code, explanation, warnings, nil
+}
+
+// GenerateSimpleResponse generates a simple text response from Gemini
+func (c *Client) GenerateSimpleResponse(prompt string) (string, error) {
+	resp, err := c.model.GenerateContent(c.ctx, genai.Text(prompt))
+	if err != nil {
+		return "", fmt.Errorf("failed to generate response: %w", err)
+	}
+
+	if len(resp.Candidates) == 0 || len(resp.Candidates[0].Content.Parts) == 0 {
+		return "", fmt.Errorf("empty response from Gemini")
+	}
+
+	return fmt.Sprintf("%v", resp.Candidates[0].Content.Parts[0]), nil
 }

@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"arcgis-ai-assistant/internal/llm"
-	"arcgis-ai-assistant/internal/models"
-	"arcgis-ai-assistant/internal/validator"
+	"qgis-ai-assistant/internal/llm"
+	"qgis-ai-assistant/internal/models"
+	"qgis-ai-assistant/internal/validator"
 )
 
 type GenerateHandler struct {

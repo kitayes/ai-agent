@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"arcgis-ai-assistant/internal/validator"
+	"qgis-ai-assistant/internal/validator"
 )
 
 type ValidateRequest struct {

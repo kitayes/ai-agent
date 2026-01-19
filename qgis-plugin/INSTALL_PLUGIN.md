@@ -54,7 +54,7 @@
 
 1. **Запустите Go Backend**:
    ```bash
-   cd arcgis-ai-assistant
+   cd qgis-ai-assistant
    go run cmd/server/main.go
    ```
    Сервер должен быть запущен на `http://localhost:8080`

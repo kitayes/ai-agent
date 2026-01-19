@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"arcgis-ai-assistant/internal/llm"
-	"arcgis-ai-assistant/internal/models"
+	"qgis-ai-assistant/internal/llm"
+	"qgis-ai-assistant/internal/models"
 )
 
 type RegenerateHandler struct {

@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"arcgis-ai-assistant/internal/models"
+	"qgis-ai-assistant/internal/models"
 )
 
 // BuildPromptWithContext creates an enhanced prompt with project context

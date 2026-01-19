@@ -7,13 +7,13 @@ import (
 	"os/signal"
 	"syscall"
 
-	"arcgis-ai-assistant/internal/config"
-	"arcgis-ai-assistant/internal/llm"
-	"arcgis-ai-assistant/internal/server"
+	"qgis-ai-assistant/internal/config"
+	"qgis-ai-assistant/internal/llm"
+	"qgis-ai-assistant/internal/server"
 )
 
 func main() {
-	log.Println("Starting ArcGIS AI Assistant Server...")
+	log.Println("Starting QGIS AI Assistant Server...")
 
 	cfg, err := config.Load()
 	if err != nil {
@@ -37,7 +37,10 @@ func main() {
 	log.Printf("Server running on http://localhost:%s", cfg.ServerPort)
 	log.Println("Endpoints:")
 	log.Println("  - POST /api/echo - Test connectivity")
-	log.Println("  - POST /api/generate - Generate ArcPy code")
+	log.Println("  - POST /api/generate - Generate PyQGIS code")
+	log.Println("  - POST /api/regenerate - Fix generated code")
+	log.Println("  - POST /api/analyze - Analyze map screenshot")
+	log.Println("  - POST /api/validate - Validate code")
 	log.Println("  - GET /health - Health check")
 
 	quit := make(chan os.Signal, 1)

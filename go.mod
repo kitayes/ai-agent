@@ -1,4 +1,4 @@
-module arcgis-ai-assistant
+module qgis-ai-assistant
 
 go 1.21
 

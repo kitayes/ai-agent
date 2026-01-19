@@ -22,8 +22,16 @@ QGIS (PyQGIS) ←→ Go Backend (HTTP) ←→ Gemini AI
 
 ### 1. Настройка Go Backend
 
+**Windows PowerShell - Настройте UTF-8 сначала:**
 ```powershell
-cd arcgis-ai-assistant
+# Запустите один раз в начале сессии для правильной кодировки русского текста
+.\configure-utf8.ps1
+```
+
+Затем запустите сервер:
+
+```powershell
+cd qgis-ai-assistant
 
 # Создайте .env файл
 copy .env.example .env
@@ -132,7 +140,7 @@ curl -X POST http://localhost:8080/api/generate `
 ## Структура проекта
 
 ```
-arcgis-ai-assistant/
+qgis-ai-assistant/
 ├── cmd/
 │   └── server/
 │       └── main.go              # Точка входа
@@ -143,15 +151,29 @@ arcgis-ai-assistant/
 │   │   └── server.go            # HTTP сервер
 │   ├── handlers/
 │   │   ├── echo.go              # Echo endpoint
-│   │   └── generate.go          # Generate endpoint
-│   └── llm/
-│       ├── client.go            # Gemini клиент
-│       └── prompt.go            # Промпты
-├── arcgis-addon/
-│   ├── ai_tool.py               # Python add-in
-│   └── Config.daml              # Конфигурация add-in
+│   │   ├── generate.go          # Generate endpoint
+│   │   ├── regenerate.go        # Regenerate endpoint
+│   │   ├── analyze.go           # Screenshot analysis
+│   │   └── validate.go          # Code validation
+│   ├── llm/
+│   │   ├── client.go            # Gemini клиент
+│   │   └── prompt.go            # Промпты
+│   ├── validator/
+│   │   └── validator.go         # Code validator
+│   └── models/
+│       └── context.go           # Data models
+├── qgis-plugin/
+│   ├── metadata.txt             # Plugin metadata
+│   ├── __init__.py             # Plugin loader
+│   ├── ai_assistant.py         # Main plugin
+│   ├── context_collector.py    # Context collector
+│   └── INSTALL_PLUGIN.md       # Installation guide
+├── docs/
+│   ├── KAZAKHSTAN.md           # Kazakhstan data sources
+│   └── UTF8_FIX.md            # UTF-8 encoding fix
 ├── .env.example                 # Пример конфигурации
 ├── go.mod                       # Go зависимости
+├── configure-utf8.ps1          # UTF-8 setup script
 └── README.md                    # Документация
 ```
 
